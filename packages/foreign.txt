@@ -1,0 +1,12 @@
+chaotic-keyring
+chaotic-mirrorlist
+dnslookup
+google-chrome
+hyprquery-git
+illogical-impulse-audio
+illogical-impulse-backlight
+illogical-impulse-basic
+wayland-idle-inhibitor-git
+wlogout
+xnviewmp
+yay

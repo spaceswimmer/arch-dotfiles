@@ -1,0 +1,11 @@
+[Unit]
+Description=Weekly Arch dotfile snapshot
+
+[Timer]
+OnCalendar=Sun *-*-* 18:00:00
+Persistent=true
+RandomizedDelaySec=30m
+AccuracySec=5m
+
+[Install]
+WantedBy=timers.target

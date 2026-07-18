@@ -1,0 +1,51 @@
+#!/bin/bash
+
+LOCK_FILE="/tmp/caffeine_active"
+INHIBITOR_PID="/tmp/caffeine_inhibitor"
+
+release_inhibitor() {
+    if [ -f "$INHIBITOR_PID" ]; then
+        kill "$(cat "$INHIBITOR_PID")" 2>/dev/null
+        rm -f "$INHIBITOR_PID"
+    fi
+}
+
+acquire_inhibitor() {
+    systemd-inhibit \
+        --what=handle-lid-switch:sleep:idle \
+        --who=caffeine \
+        --why="Caffeine enabled" \
+        --mode=block \
+        sleep infinity &
+    echo $! > "$INHIBITOR_PID"
+}
+
+case "$1" in
+    "toggle")
+        if [ -f "$LOCK_FILE" ]; then
+            rm "$LOCK_FILE"
+            release_inhibitor
+            notify-send "Caffeine" "Sleep mode enabled"
+        else
+            touch "$LOCK_FILE"
+            acquire_inhibitor
+            notify-send "Caffeine" "Sleep mode disabled"
+        fi
+        ;;
+    "status")
+        if [ -f "$LOCK_FILE" ]; then
+            echo "active"
+        else
+            echo "inactive"
+        fi
+        ;;
+    *)
+        if [ -f "$LOCK_FILE" ]; then
+            rm "$LOCK_FILE"
+            release_inhibitor
+        else
+            touch "$LOCK_FILE"
+            acquire_inhibitor
+        fi
+        ;;
+esac

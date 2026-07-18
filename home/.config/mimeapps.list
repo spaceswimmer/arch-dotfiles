@@ -1,0 +1,28 @@
+[Added Associations]
+application/pdf=org.gnome.Evince.desktop;libreoffice-draw.desktop;org.gnome.Papers.desktop;
+image/jpeg=xnviewmp-2.desktop;
+text/csv=libreoffice-calc.desktop;
+text/plain=nvim.desktop;
+video/mpeg=vlc.desktop;
+video/vnd.avi=vlc.desktop;
+video/webm=vlc.desktop;
+x-scheme-handler/mailto=userapp-Thunderbird-CMBJQ3.desktop;
+x-scheme-handler/mid=userapp-Thunderbird-CMBJQ3.desktop;
+
+[Default Applications]
+application/pdf=org.gnome.Evince.desktop;
+image/jpeg=xnviewmp-2.desktop;
+inode/directory=org.kde.dolphin.desktop
+message/rfc822=userapp-Thunderbird-CMBJQ3.desktop
+text/csv=libreoffice-calc.desktop;
+text/html=firefox.desktop
+text/plain=nvim.desktop;
+video/mpeg=vlc.desktop;
+video/vnd.avi=vlc.desktop;
+video/webm=vlc.desktop;
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/mailto=userapp-Thunderbird-CMBJQ3.desktop
+x-scheme-handler/mid=userapp-Thunderbird-CMBJQ3.desktop
+x-scheme-handler/unknown=firefox.desktop

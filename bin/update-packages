@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+check=false
+case ${1:-} in
+  '') ;;
+  --check) check=true ;;
+  *) die 'usage: bin/update-packages [--check]' ;;
+esac
+command -v pacman >/dev/null 2>&1 || die 'pacman is required'
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+LC_ALL=C pacman -Qqen | sort -u > "$tmp/official.txt"
+LC_ALL=C pacman -Qqem | sort -u > "$tmp/foreign.txt"
+
+if [[ $check == true ]]; then
+  cmp -s "$tmp/official.txt" "$repo_root/packages/official.txt" || die 'packages/official.txt is stale'
+  cmp -s "$tmp/foreign.txt" "$repo_root/packages/foreign.txt" || die 'packages/foreign.txt is stale'
+  printf 'package manifests are current\n'
+  exit 0
+fi
+
+install -m 0644 "$tmp/official.txt" "$repo_root/packages/official.txt"
+install -m 0644 "$tmp/foreign.txt" "$repo_root/packages/foreign.txt"
+printf 'package manifests updated\n'

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+unit_dir=${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user
+mkdir -p "$unit_dir"
+install -m 0644 "$repo_root/systemd/user/arch-dotfiles-sync.service" "$unit_dir/"
+install -m 0644 "$repo_root/systemd/user/arch-dotfiles-sync.timer" "$unit_dir/"
+systemctl --user daemon-reload
+systemctl --user enable --now arch-dotfiles-sync.timer
+systemctl --user list-timers --all arch-dotfiles-sync.timer

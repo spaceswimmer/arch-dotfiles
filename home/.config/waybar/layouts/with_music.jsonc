@@ -1,0 +1,69 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "margin": "10 10 2 10",
+
+    "group/left" : {
+        "orientation": "horizontal",
+        "modules" : [
+            "hyprland/workspaces", 
+//            "niri/workspaces",
+            "mpris"
+        ]
+    },
+
+    "group/left-hidden" : {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": false,
+            "click-to-reveal": true
+        },
+        "modules" : [
+            "custom/arrow-right", "cpu", "load"
+        ]
+    },
+
+    "group/left-hidden-top" : {
+        "orientation": "horizontal",
+        "modules" : [ "custom/start", "group/left-hidden" ]
+    },
+
+    "group/right" : {
+        "orientation": "horizontal",
+        "modules" : [
+            "custom/caffeine", "network", "bluetooth", "custom/wireguard", "battery"
+        ]
+    },
+
+    "group/tray-section" : {
+        "orientation": "horizontal",
+        "modules" : [
+            "tray"
+        ]
+    },
+
+    "group/right-hidden" : {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true,
+            "click-to-reveal": true
+        },
+        "modules" : [
+            "custom/arrow-left", "memory", "temperature"
+        ]
+    },
+
+    "group/right-hidden-top" : {
+        "orientation": "horizontal",
+        "modules" : [ "hyprland/language", "pulseaudio", "group/right-hidden",  "custom/ctlcenter" ]
+    },
+
+    "modules-left"   : ["group/left-hidden-top", "group/left"],
+    "modules-center" : ["clock"],
+    "modules-right"  : [ "group/tray-section", "group/right",  "group/right-hidden-top"],
+
+    "include": [ "~/.config/waybar/modules.jsonc" ]
+}

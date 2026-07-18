@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+command -v flock >/dev/null 2>&1 || die 'flock is required'
+exec 9>"${XDG_RUNTIME_DIR:-/tmp}/arch-dotfiles-sync.lock"
+flock -n 9 || die 'another synchronization is running'
+
+cd "$repo_root"
+[[ $(git branch --show-current) == main ]] || die 'weekly synchronization only runs on main'
+[[ -z $(git status --porcelain) ]] || die 'repository has uncommitted changes'
+
+git fetch origin main
+read -r ahead behind < <(git rev-list --left-right --count HEAD...origin/main)
+((ahead == 0)) || die 'local main is ahead of origin; push or reconcile it manually'
+((behind == 0)) || die 'origin/main has new commits; review and update manually'
+
+"$repo_root/bin/update-packages"
+"$repo_root/bin/sync" --apply
+"$repo_root/bin/verify"
+
+git add -- home packages
+staged=$(mktemp -d)
+trap 'rm -rf "$staged"' EXIT
+git checkout-index --all --prefix="$staged/"
+"$repo_root/bin/verify" "$staged/home"
+scan_tree "$staged"
+if git diff --cached --quiet; then
+  printf 'no dotfile changes to commit\n'
+  exit 0
+fi
+
+git diff --cached --check
+git commit -m "chore: refresh weekly dotfile snapshot"
+git push origin main

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+command -v systemctl >/dev/null 2>&1 || die 'systemctl is required'
+units=()
+while IFS= read -r unit || [[ -n $unit ]]; do
+  [[ -z $unit || $unit == \#* ]] && continue
+  units+=("$unit")
+done < "$repo_root/manifests/enabled-user-units.txt"
+((${#units[@]} > 0)) || die 'no enabled user units are listed'
+
+systemctl --user daemon-reload
+systemctl --user enable --now "${units[@]}"

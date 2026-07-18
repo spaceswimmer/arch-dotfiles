@@ -1,0 +1,15 @@
+[Unit]
+Description=Wayland VNC Server (wayvnc)
+# Started on-demand by Hyprland (exec-once in hyprland.conf).
+# graphical-session.target is intentionally NOT used because it has
+# RefuseManualStart=yes and nothing on this system activates it as a dependency.
+
+[Service]
+ExecStart=/usr/bin/wayvnc
+Restart=on-failure
+RestartSec=2
+Environment=XDG_RUNTIME_DIR=%t
+Environment=WAYLAND_DISPLAY=wayland-1
+
+[Install]
+WantedBy=default.target

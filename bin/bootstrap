@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+case ${1:-} in
+  --check)
+    for command in git rsync pacman systemctl; do
+      command -v "$command" >/dev/null 2>&1 || die "missing required command: $command"
+    done
+    printf 'bootstrap prerequisites are available\n'
+    ;;
+  --packages)
+    command -v pacman >/dev/null 2>&1 || die 'pacman is required'
+    printf 'This updates Arch and installs explicit official packages. Continue? [y/N] '
+    read -r answer
+    [[ $answer == y || $answer == Y ]] || die 'cancelled'
+    sudo pacman -Syu --needed - < "$repo_root/packages/official.txt"
+    printf 'Official packages installed. Review packages/foreign.txt manually; it is never built automatically.\n'
+    ;;
+  *) die 'usage: bin/bootstrap --check|--packages' ;;
+esac

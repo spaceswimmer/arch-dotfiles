@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+target=${1:-$repo_root/home}
+[[ $# -le 1 ]] || die 'usage: bin/verify [snapshot-directory]'
+
+load_allowlist
+validate_snapshot_coverage "$target"
+for path in "${ALLOWLIST[@]}"; do
+  [[ -e $target/$path || -L $target/$path ]] || die "allowlisted path is missing from snapshot: $path"
+  validate_tree "$target/$path" "$target"
+done
+
+if [[ $target == "$repo_root/home" ]]; then
+  scan_tree "$repo_root"
+  scan_history
+  if [[ -d $repo_root/.git ]] && ! git -C "$repo_root" diff --cached --quiet; then
+    staged=$(mktemp -d)
+    trap 'rm -rf "$staged"' EXIT
+    git -C "$repo_root" checkout-index --all --prefix="$staged/"
+    scan_tree "$staged"
+    if [[ -d $staged/home ]]; then
+      validate_snapshot_coverage "$staged/home"
+      for path in "${ALLOWLIST[@]}"; do
+        [[ -e $staged/home/$path || -L $staged/home/$path ]] || die "allowlisted path is missing from staged snapshot: $path"
+        validate_tree "$staged/home/$path" "$staged/home"
+      done
+    fi
+  fi
+else
+  scan_tree "$target"
+fi
+
+if [[ $target == "$repo_root/home" ]] && command -v gitleaks >/dev/null 2>&1; then
+  gitleaks dir --no-banner --redact "$repo_root"
+  git -C "$repo_root" rev-parse --verify HEAD >/dev/null 2>&1 && gitleaks git --no-banner --redact "$repo_root"
+fi
+
+printf 'verification passed: %s\n' "$target"

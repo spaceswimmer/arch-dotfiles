@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+apply=false
+case ${1:-} in
+  '') ;;
+  --apply) apply=true ;;
+  *) die 'usage: bin/restore [--apply]' ;;
+esac
+
+[[ ${EUID:-$(id -u)} -ne 0 ]] || die 'refusing to run as root'
+load_allowlist
+"$repo_root/bin/verify" >/dev/null
+state_home=${XDG_STATE_HOME:-$HOME/.local/state}
+backup_parent=$state_home/arch-dotfiles/backups
+backup_root=
+if [[ $apply == true ]]; then
+  mkdir -p "$backup_parent"
+  backup_root=$(mktemp -d "$backup_parent/restore-XXXXXXXX")
+fi
+
+for path in "${ALLOWLIST[@]}"; do
+  source_path=$repo_root/home/$path
+  destination=$HOME/$path
+  [[ -e $source_path || -L $source_path ]] || continue
+  validate_tree "$source_path" "$repo_root/home"
+  assert_source_safe "$destination"
+  printf '%s: ~/%s\n' "$([[ $apply == true ]] && printf restore || printf preview)" "$path"
+  [[ $apply == true ]] || continue
+  if [[ -e $destination || -L $destination ]]; then
+    backup=$backup_root/$path
+    mkdir -p -- "$(dirname -- "$backup")"
+    cp -a -- "$destination" "$backup"
+    rm -rf -- "$destination"
+  fi
+  mkdir -p -- "$(dirname -- "$destination")"
+  cp -a -- "$source_path" "$destination"
+done
+
+if [[ $apply == true ]]; then
+  printf 'restore complete; previous files are under %s\n' "$backup_root"
+else
+  printf 'dry run only; use --apply to restore files\n'
+fi

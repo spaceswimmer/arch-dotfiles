@@ -1,0 +1,5 @@
+# Enabled intentionally during a restore.
+waybar.service
+wifidaemon.timer
+
+# wayvnc.service is intentionally omitted. Review docs/secrets.md first.

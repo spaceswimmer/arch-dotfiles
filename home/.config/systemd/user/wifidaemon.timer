@@ -1,0 +1,10 @@
+[Unit]
+Description=Periodic WiFi scan for wifimenu
+
+[Timer]
+OnBootSec=10
+OnUnitActiveSec=30
+Persistent=true
+
+[Install]
+WantedBy=timers.target

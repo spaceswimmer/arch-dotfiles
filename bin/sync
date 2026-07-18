@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname -- "${BASH_SOURCE[0]}")/lib"
+
+apply=false
+case ${1:-} in
+  '') ;;
+  --apply) apply=true ;;
+  *) die 'usage: bin/sync [--apply]' ;;
+esac
+
+[[ ${EUID:-$(id -u)} -ne 0 ]] || die 'refusing to run as root'
+load_allowlist
+stage=$(mktemp -d "$repo_root/.sync-XXXXXXXX")
+backup=
+cleanup() {
+  if [[ -n $backup && -e $backup && ! -e $repo_root/home ]]; then
+    mv -- "$backup" "$repo_root/home"
+  fi
+  rm -rf -- "$stage"
+}
+trap cleanup EXIT
+mkdir -p "$stage/home"
+
+for path in "${ALLOWLIST[@]}"; do
+  source_path=$HOME/$path
+  destination=$stage/home/$path
+  assert_source_safe "$source_path"
+  if [[ ! -e $source_path && ! -L $source_path ]]; then
+    die "allowlisted source is missing: $path"
+  fi
+  validate_tree "$source_path" "$HOME"
+  printf '%s: ~/%s\n' "$([[ $apply == true ]] && printf sync || printf preview)" "$path"
+  rm -rf -- "$destination"
+  mkdir -p -- "$(dirname -- "$destination")"
+  cp -a -- "$source_path" "$destination"
+done
+
+sanitize_snapshot "$stage/home"
+"$repo_root/bin/verify" "$stage/home" >/dev/null
+
+if [[ $apply == true ]]; then
+  if [[ -e $repo_root/home ]]; then
+    backup=$(mktemp -d "$repo_root/.home-backup-XXXXXXXX")
+    rmdir "$backup"
+    mv -- "$repo_root/home" "$backup"
+  fi
+  mv -- "$stage/home" "$repo_root/home"
+  [[ -z $backup ]] || rm -rf -- "$backup"
+  printf 'snapshot updated\n'
+else
+  printf 'dry run only; use --apply to update the snapshot\n'
+fi

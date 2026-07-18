@@ -1,0 +1,20 @@
+# Local/private material must never enter this repository.
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*history*
+*cookie*
+credentials*
+secrets*
+!docs/secrets.md
+
+# Generated local output.
+*.log
+*.tmp
+.DS_Store
+tasks/*.local.md
+.sync-*
+.home-backup-*

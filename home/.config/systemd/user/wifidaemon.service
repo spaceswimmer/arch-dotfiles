@@ -1,0 +1,6 @@
+[Unit]
+Description=WiFi scan daemon for wifimenu (caches scan results)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/waybar/wifimenu/scripts/wifidaemon/wifidaemon

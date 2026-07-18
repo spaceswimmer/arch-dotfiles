@@ -1,0 +1,60 @@
+# Shell and terminal
+.zshrc
+.zshenv
+.p10k.zsh
+.bashrc
+.bash_profile
+.bash_logout
+.tmux.conf
+.Xresources
+.config/kitty
+
+# Hyprland desktop
+.config/hypr/hyprland.conf
+.config/hypr/hypridle.conf
+.config/hypr/hyprlock.conf
+.config/hypr/hyprpaper.conf
+.config/hypr/scripts
+.config/hyprlock/colors.conf
+.config/hyprlock/music.conf
+.config/hyprlock/layouts/layout12.conf
+.config/hyprlock/scripts
+.config/rofi
+.config/swaync
+.config/waybar/README.md
+.config/waybar/colors
+.config/waybar/config.jsonc
+.config/waybar/context
+.config/waybar/layouts
+.config/waybar/mine
+.config/waybar/modules.jsonc
+.config/waybar/scripts
+.config/waybar/style.css
+.config/waybar/wifimenu/LICENSE
+.config/waybar/wifimenu/README.md
+.config/waybar/wifimenu/config
+.config/waybar/wifimenu/scripts
+.config/waybar/wireguard-rofi-waybar/LICENSE
+.config/waybar/wireguard-rofi-waybar/README.md
+.config/waybar/wireguard-rofi-waybar/wireguard-rofi.sh
+.config/waybar/wireguard-rofi-waybar/wireguard.sh
+.local/bin/caffeine
+
+# Editors and XDG preferences
+.config/nvim
+.config/vim
+.config/VSCodium/User/settings.json
+.config/opencode/opencode.jsonc
+.config/mimeapps.list
+.config/user-dirs.dirs
+.config/user-dirs.locale
+.config/xdg-terminals.list
+
+# User services
+.config/systemd/user/waybar.service
+.config/systemd/user/wayvnc.service
+.config/systemd/user/wifidaemon.service
+.config/systemd/user/wifidaemon.timer
+
+# Non-sensitive desktop asset used by Hyprpaper and Hyprlock
+Pictures/wallpaper.jpg

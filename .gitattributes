@@ -1,0 +1,2 @@
+# Snapshot files preserve upstream/live formatting; enforce whitespace elsewhere.
+home/** whitespace=-trailing-space,-space-before-tab,-blank-at-eof

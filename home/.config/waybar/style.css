@@ -1,0 +1,225 @@
+@import "colors/colors.css";
+
+* {
+    font-family: 'GeistMono Nerd Font';
+	border: none;
+	border-radius: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	text-shadow: none;
+}
+
+#waybar {
+    font-weight: 700;
+    background: transparent;
+    font-size: 16px;
+    color: @fg;
+}
+
+/* global paddings */
+#temperature,
+#bluetooth, 
+#battery, 
+#mpris,
+#window,
+#load,
+#language {
+    padding: 1px 7px;
+}
+
+#memory,
+#cpu {
+    padding: 1px 10px;
+}
+
+#network, 
+#tray,
+#custom-wireguard {
+    padding: 1px 8px;
+}
+
+#backlight {
+    padding: 1px 10px;
+}
+
+#pulseaudio {
+    padding: 1px 8px;
+}
+
+#backlight-slider,
+#pulseaudio-slider {
+    padding: 0 7px 0 2px;
+}
+
+#workspaces, 
+#bluetooth, 
+#battery, 
+#memory, 
+#temperature, 
+#cpu,
+#mpris,
+#window,
+#load {
+    margin: 0 3px;
+} 
+
+#right, 
+#left,
+#right-hidden-top, 
+#left-hidden-top,
+#tray-section {
+    padding: 5px 10px;
+    border-radius: 15px;
+    background: @module-bg;
+}
+
+#right-hidden-top,
+#left-hidden-top {
+    padding: 4px 12px;
+}
+
+#right, #left, #tray-section  {
+    margin: 0 8px;
+}
+
+#clock {
+    background: @module-bg;
+    padding: 5px 18px;
+    border-radius: 15px;
+}
+
+#custom-ctlcenter {
+    margin-left: 7px;
+    padding-right: 10px;
+}
+
+#power-profiles-daemon,
+#custom-start {
+    margin-right: 7px;
+}
+
+#cpu.critical,
+#memory.critical, 
+#battery.critical,
+#network.disabled,
+#temperature.critical, 
+#network.disconnected,
+#power-profiles-daemon.performance {
+	color: @red;
+}
+
+#cpu.warning,
+#memory.warning, 
+#battery.warning,
+#temperature.warning {
+	color: @yellow;
+    background: unset;
+}
+
+#power-profiles-daemon.power-saver {
+    color: @green;
+}
+
+#custom-start,
+#custom-ctlcenter {
+    color: @blue;
+}
+
+#custom-caffeine {
+    padding: 1px 7px;
+}
+
+#custom-caffeine.active {
+    color: @yellow;
+}
+
+#bluetooth.connected {
+    color: @blue;
+}
+#bluetooth.off,
+#bluetooth.disconnected,
+#bluetooth.disabled {
+    color: @inactive;
+}
+
+#custom-wireguard.connected {
+    color: @green;
+}
+
+#custom-wireguard.disconnected {
+    color: @inactive;
+}
+
+#workspaces button {
+    color: @workspace-fg;
+    font-size: 16px;
+    border-radius: 100%;
+    padding: 0 2px;
+    margin: 0 3px;
+}
+/* 
+#workspaces button.empty:not(.active) {
+    color: @inactive;
+} */
+
+#workspaces button:hover {
+    background: transparent;
+}
+
+#mpris.paused {
+    color: @inactive;
+}
+
+/* ---<==== Misc ====>--- */
+tooltip {
+    border-radius: 15px;
+    background: @tooltip-bg;
+}
+
+tooltip label {
+    padding: 3px 10px;
+    color: @fg;
+	font-weight: 700;
+}
+
+.popup * {
+    box-shadow: none;
+    outline: none;
+}
+
+menu, menu {
+    border-radius: 10px;
+    font-weight: 700;
+    color: @fg;
+    background: @tooltip-bg;
+}
+
+menu > *, menu > * {
+    padding: 3px 0px;
+}
+
+menu > *:hover, menu > *:hover{
+    border-radius: 10px;
+    background-color: @inactive;
+}
+
+/* Sliders */
+
+slider {
+    opacity: 0;
+    box-shadow: none;
+}
+
+trough {
+    min-width: 50px;
+    min-height: 5px;
+    border-radius: 8px;
+    background: @inactive;
+}
+
+trough highlight {
+    border-radius: 8px;
+    background-color: @fg;
+    background-image: none;
+}

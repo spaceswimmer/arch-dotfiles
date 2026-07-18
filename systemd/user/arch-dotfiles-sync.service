@@ -1,0 +1,13 @@
+[Unit]
+Description=Verify, commit, and push the Arch dotfile snapshot
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Projects/personal/arch-dotfiles
+ExecStart=%h/Projects/personal/arch-dotfiles/bin/weekly-sync
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+TimeoutStartSec=15m
+Nice=10
+NoNewPrivileges=true
+PrivateTmp=true
