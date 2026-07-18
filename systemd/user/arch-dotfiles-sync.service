@@ -7,6 +7,7 @@ Type=oneshot
 WorkingDirectory=%h/Projects/personal/arch-dotfiles
 ExecStart=%h/Projects/personal/arch-dotfiles/bin/weekly-sync
 Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+Environment="GIT_SSH_COMMAND=/usr/bin/ssh -F /dev/null"
 TimeoutStartSec=15m
 Nice=10
 NoNewPrivileges=true

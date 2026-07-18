@@ -63,6 +63,8 @@ The timer runs Sunday around 18:00 with a randomized delay. `Persistent=true` ca
 
 Automation aborts on a dirty repository, non-`main` branch, diverged/ahead history, failed scan, missing SSH authentication, or push failure. It never stashes, rebases, force-pushes, or resolves conflicts.
 
+The service uses `ssh -F /dev/null` to avoid machine-global SSH client configuration. Standard host-key checking and the user SSH agent still apply.
+
 ## Scope
 
 Included: Hyprland, Hypridle, Hyprlock, Hyprpaper, Waybar, SwayNC, Rofi, Kitty, shell, selected editors/XDG preferences, safe user units, a wallpaper, and explicit package manifests.
