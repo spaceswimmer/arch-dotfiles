@@ -2,7 +2,7 @@
 
 ## Overview
 
-Build a copy-based, allowlisted dotfiles snapshot with a defense-in-depth secret gate, package intent manifests, cautious restore tooling, and a weekly user systemd timer.
+Build a copy-based, allowlisted dotfiles snapshot with a defense-in-depth secret gate, package intent manifests, cautious restore tooling, and a daily user systemd timer.
 
 ## Architecture Decisions
 
@@ -38,7 +38,7 @@ Build a copy-based, allowlisted dotfiles snapshot with a defense-in-depth secret
 
 ### Phase 3: Automation and Documentation
 
-- [ ] Add fail-closed weekly Git synchronization.
+- [ ] Add fail-closed daily Git synchronization.
 - [ ] Add and install user systemd service/timer.
 - [ ] Document usage, security boundaries, and fresh-system restoration.
 
@@ -54,7 +54,7 @@ Build a copy-based, allowlisted dotfiles snapshot with a defense-in-depth secret
 |---|---|---|
 | Credential enters an allowed directory | High | Hard denials, built-in content scan, optional Gitleaks, staged-diff scan |
 | Restore overwrites useful local config | High | Dry-run default and timestamped backups |
-| Weekly job conflicts with user edits | Medium | Abort on dirty/diverged state; fast-forward only |
+| Daily job conflicts with user edits | Medium | Abort on dirty/diverged state; fast-forward only |
 | Hardware-specific config fails elsewhere | Medium | Document and isolate machine-specific overrides where supported |
 | Package list is not byte-for-byte reproducible | Low | Record intent, separate foreign packages, document rolling-release limits |
 

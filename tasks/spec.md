@@ -2,13 +2,13 @@
 
 ## Objective
 
-Create a safe, public Git repository that snapshots the user's Arch Linux and Hyprland configuration, records package intent, supports cautious restoration on another machine, and updates weekly without ever committing credentials or private runtime state.
+Create a safe, public Git repository that snapshots the user's Arch Linux and Hyprland configuration, records package intent, supports cautious restoration on another machine, and updates daily without ever committing credentials or private runtime state.
 
 ## Tech Stack
 
 - POSIX-oriented Bash with standard Arch tools: Git, rsync, pacman, systemd, and optionally Gitleaks.
 - A mirrored `home/` tree. Live files remain authoritative and are not replaced with symlinks.
-- A user-level systemd timer for weekly automation.
+- A user-level systemd timer for daily automation.
 
 ## Commands
 
@@ -27,7 +27,7 @@ Create a safe, public Git repository that snapshots the user's Arch Linux and Hy
 - `manifests/`: source allowlist and enabled user units.
 - `packages/`: official and foreign explicit package intent.
 - `bin/`: snapshot, restore, verification, and automation commands.
-- `systemd/user/`: weekly synchronization unit and timer.
+- `systemd/user/`: daily synchronization unit and timer.
 - `tests/`: isolated shell integration tests.
 - `docs/`: restoration, secret handling, and machine notes.
 - `tasks/`: specification and implementation records.
@@ -58,7 +58,7 @@ Shell integration tests run against temporary HOME and repository fixtures. They
 - Safe Arch/Hyprland, shell, editor, and user-service configuration is present under `home/` and contains no known credentials.
 - Explicit official and foreign package manifests are recorded without version pinning.
 - Snapshot and restore are dry-run by default and pass isolated tests.
-- Weekly automation verifies, commits, and pushes only expected paths, while failing closed on scan or Git errors.
+- Daily automation verifies, commits, and pushes only expected paths, while failing closed on scan or Git errors.
 - README and AGENTS guidance warn humans and agents about secret handling and recovery limitations.
 - The repository is pushed to `git@github.com:spaceswimmer/arch-dotfiles.git` and the user timer is enabled.
 

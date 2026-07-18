@@ -9,7 +9,7 @@
 - [ ] Add package and restore workflows.
   - Acceptance: explicit packages are listed and restore is backup-first.
   - Verify: `bin/update-packages --check && bin/restore`
-- [ ] Add weekly automation and documentation.
+- [ ] Add daily automation and documentation.
   - Acceptance: timer is enabled and README/AGENTS define safe operation.
   - Verify: `systemctl --user status arch-dotfiles-sync.timer`
 - [ ] Review and publish.

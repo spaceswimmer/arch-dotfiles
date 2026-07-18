@@ -13,7 +13,7 @@ WayVNC is not enabled by `manifests/enabled-user-units.txt`. Its local config co
 
 If a secret is committed:
 
-1. Stop the weekly timer and all pushes.
+1. Stop the automatic timer and all pushes.
 2. Revoke or rotate the credential immediately.
 3. Remove it from the complete Git history.
 4. Run a path-redacted scan over files and history.

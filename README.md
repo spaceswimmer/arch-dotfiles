@@ -49,7 +49,7 @@ Conflicts are backed up under `$XDG_STATE_HOME/arch-dotfiles/backups/` or `~/.lo
 
 Review `packages/foreign.txt` manually. It mixes AUR and locally sourced packages; no foreign package is built automatically. Review `docs/restore.md` for the remaining system-level steps.
 
-## Weekly Updates
+## Daily Updates
 
 Install the user timer:
 
@@ -59,7 +59,7 @@ systemctl --user status arch-dotfiles-sync.timer
 journalctl --user -u arch-dotfiles-sync.service
 ```
 
-The timer runs Sunday around 18:00 with a randomized delay. `Persistent=true` catches a missed run after the next login. It does not run while fully logged out unless user lingering is enabled.
+The timer runs every day around 18:00 with a randomized delay. `Persistent=true` catches a missed run after the next login. It does not run while fully logged out unless user lingering is enabled.
 
 Automation aborts on a dirty repository, non-`main` branch, diverged/ahead history, failed scan, missing SSH authentication, or push failure. It never stashes, rebases, force-pushes, or resolves conflicts.
 
